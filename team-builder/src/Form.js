@@ -8,8 +8,16 @@ const initialTeamList = [];
 const initialTeamForm = {
   name: "",
   email: "",
+  password: "",
   role: ""
 };
+
+const StyledOutputText = styled.h5`
+  font-size: 20px;
+  text-align: left;
+  padding-left: 40px;
+  color: #484848;
+`;
 
 //creating a functional component called Container
 export function Container() {
@@ -24,6 +32,7 @@ export function Container() {
     setTeamForm({
       name: e.target.value,
       email: teamForm.email,
+      password: teamForm.password,
       role: teamForm.role
     });
   };
@@ -33,6 +42,17 @@ export function Container() {
     setTeamForm({
       name: teamForm.name,
       email: e.target.value,
+      password: teamForm.password,
+      role: teamForm.role
+    });
+  };
+
+  const onPasswordChange = e => {
+    // we have the new value for the age input inside e.target.value
+    setTeamForm({
+      name: teamForm.name,
+      email: teamForm.email,
+      password: e.target.value,
       role: teamForm.role
     });
   };
@@ -42,6 +62,7 @@ export function Container() {
     setTeamForm({
       name: teamForm.name,
       email: teamForm.email,
+      password: teamForm.password,
       role: e.target.value
     });
   };
@@ -53,6 +74,7 @@ export function Container() {
       id: uuid(),
       name: teamForm.name,
       email: teamForm.email,
+      password: teamForm.password,
       role: teamForm.role
     };
     const newTeamList = teamsList.concat(newTeamMember);
@@ -65,26 +87,92 @@ export function Container() {
       <Form
         onNameChange={onNameChange}
         onEmailChange={onEmailChange}
+        onPasswordChange={onPasswordChange}
         onRoleChange={onRoleChange}
         teamForm={teamForm}
         onFormSubmit={onFormSubmit}
       />
       {teamsList.map(team => (
-        <h5 key={team.id}>
-          My name is {team.name} and I am the {team.role}. Email Address is
-          {team.email}
-        </h5>
+        <StyledOutputText key={team.id}>
+          My name is {team.name} and I am the {team.role} at Chore Express.
+        </StyledOutputText>
       ))}
     </div>
   );
 }
 
+const StyledHeadline = styled.h2`
+  font-size: 30px;
+  color: #484848;
+  margin-top: 20px;
+  margin-bottom: -10px;
+  text-align: left;
+  margin-left: 40px;
+`;
+
+const StyledLabel = styled.label`
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #484848;
+  text-transform: uppercase;
+  text-align: left;
+`;
+
+const StyledInput = styled.input`
+  padding-left: 12px;
+  padding-right: 12px;
+  border: 1px solid #ebebeb;
+  height: 48px;
+  color: #484848;
+  border-radius: 4px;
+  width: 100%;
+  font-size: 17px;
+  outline: 0;
+  &:focus {
+    border-color: green;
+  }
+`;
+
+const StyledButton = styled.button`
+  height: 80px;
+  margin-top: 20px;
+  border-radius: 10px;
+  background-color: #FF5A5F
+  font-size: 24px;
+  border: 0;
+  text-transform: uppercase;
+  color: white;
+  width: 100%;
+  cursor: pointer;
+
+  &:disabled{
+      opacity: 0.4;
+      cursor: not-allowed;
+  }
+
+  &:hover{
+    background-color: #f34146
+  }
+
+  &:active{
+    background-color: #d2292d
+  }
+`;
+
 function Form(props) {
   // what data does the form need to populate itself?
   // what callbacks does the form need to perform
   // its basic functions of updating fields and submitting?
-  const { onNameChange, onEmailChange, onRoleChange, onFormSubmit } = props;
-  const { name, email, role } = props.teamForm;
+  const {
+    onNameChange,
+    onEmailChange,
+    onPasswordChange,
+    onRoleChange,
+    onFormSubmit
+  } = props;
+  const { name, email, password, role } = props.teamForm;
   const isDisabled = () => {
     if (!name || !email || !role) {
       return true;
@@ -92,43 +180,48 @@ function Form(props) {
     return false;
   };
 
-  const styledLabel = styled.label`
-    font-size: 24px;
-    font-weight: 600;
-    margin-top: 30px;
-    color: mediumslateblue;
-  `;
-
   return (
-    <form className="flex">
-      <label className="label-style" htmlFor="nameInput">
-        Name
-      </label>
-      <input
-        maxLength={50}
-        value={name}
-        onChange={onNameChange}
-        id="nameInput"
-        type="text"
-      />
+    <>
+      <StyledHeadline>Team Members Form</StyledHeadline>
+      <form className="flex">
+        <StyledLabel htmlFor="nameInput">Name</StyledLabel>
+        <StyledInput
+          //   maxLength={50}
+          value={name}
+          onChange={onNameChange}
+          id="nameInput"
+          type="text"
+        />
 
-      <styledLabel htmlFor="roleInput">Role</styledLabel>
-      {/* <label className="label-style" htmlFor="roleInput">
-        Role
-      </label> */}
-      <input value={role} onChange={onRoleChange} id="roleInput" type="text" />
+        <StyledLabel htmlFor="emailInput">Email </StyledLabel>
+        <StyledInput
+          value={email}
+          onChange={onEmailChange}
+          id="emailInput"
+          type="email"
+        />
 
-      <label htmlFor="emailInput">Email</label>
-      <input
-        value={email}
-        onChange={onEmailChange}
-        id="emailInput"
-        type="email"
-      />
+        <StyledLabel htmlFor="passwordInput">Password </StyledLabel>
+        <StyledInput
+          value={password}
+          onChange={onPasswordChange}
+          id="passwordInput"
+          type="password"
+        />
 
-      <button disabled={isDisabled()} onClick={onFormSubmit}>
-        submit
-      </button>
-    </form>
+        <StyledLabel htmlFor="roleInput">Role</StyledLabel>
+
+        <StyledInput
+          value={role}
+          onChange={onRoleChange}
+          id="roleInput"
+          type="text"
+        />
+
+        <StyledButton disabled={isDisabled()} onClick={onFormSubmit}>
+          submit
+        </StyledButton>
+      </form>
+    </>
   );
 }
