@@ -2,14 +2,16 @@ import React from "react";
 import uuid from "uuid";
 import { useState } from "react";
 
-const initialTeamList = [];
 
+//creating initial values 
+const initialTeamList = [];
 const initialTeamForm = {
   name: "",
   email: "",
   role: ""
 };
 
+//creating a functional component called Container
 export function Container() {
     // what state does this app need
     // in order to display friends,
