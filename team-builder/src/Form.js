@@ -1,6 +1,7 @@
 import React from "react";
 import uuid from "uuid";
 import { useState } from "react";
+import styled from "styled-components";
 
 //creating initial values
 const initialTeamList = [];
@@ -91,9 +92,18 @@ function Form(props) {
     return false;
   };
 
+  const styledLabel = styled.label`
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 30px;
+    color: mediumslateblue;
+  `;
+
   return (
-    <form>
-      <label htmlFor="nameInput">Name</label>
+    <form className="flex">
+      <label className="label-style" htmlFor="nameInput">
+        Name
+      </label>
       <input
         maxLength={50}
         value={name}
@@ -102,7 +112,10 @@ function Form(props) {
         type="text"
       />
 
-      <label htmlFor="roleInput">Role</label>
+      <styledLabel htmlFor="roleInput">Role</styledLabel>
+      {/* <label className="label-style" htmlFor="roleInput">
+        Role
+      </label> */}
       <input value={role} onChange={onRoleChange} id="roleInput" type="text" />
 
       <label htmlFor="emailInput">Email</label>
