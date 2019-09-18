@@ -77,3 +77,45 @@ export function Container() {
     </div>
   );
 }
+
+function Form(props) {
+  // what data does the form need to populate itself?
+  // what callbacks does the form need to perform
+  // its basic functions of updating fields and submitting?
+  const { onNameChange, onEmailChange, onRoleChange, onFormSubmit } = props;
+  const { name, email, role } = props.teamForm;
+  const isDisabled = () => {
+    if (!name || !email || !role) {
+      return true;
+    }
+    return false;
+  };
+
+  return (
+    <form>
+      <label htmlFor="nameInput">Name</label>
+      <input
+        maxLength={50}
+        value={name}
+        onChange={onNameChange}
+        id="nameInput"
+        type="text"
+      />
+
+      <label htmlFor="roleInput">Role</label>
+      <input value={role} onChange={onRoleChange} id="roleInput" type="text" />
+
+      <label htmlFor="emailInput">Email</label>
+      <input
+        value={email}
+        onChange={onEmailChange}
+        id="emailInput"
+        type="email"
+      />
+
+      <button disabled={isDisabled()} onClick={onFormSubmit}>
+        submit
+      </button>
+    </form>
+  );
+}
