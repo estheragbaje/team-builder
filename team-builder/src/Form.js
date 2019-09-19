@@ -19,6 +19,11 @@ const StyledOutputText = styled.h5`
   color: #484848;
 `;
 
+const StyledDivFlex = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 //creating a functional component called Container
 export function Container() {
   // what state does this app need
@@ -92,11 +97,15 @@ export function Container() {
         teamForm={teamForm}
         onFormSubmit={onFormSubmit}
       />
-      {teamsList.map(team => (
-        <StyledOutputText key={team.id}>
-          My name is {team.name} and I am the {team.role} at Chore Express.
-        </StyledOutputText>
-      ))}
+      <StyledDivFlex>
+        {teamsList.map(team => (
+          <StyledOutputText key={team.id}>
+            My name is {team.name} and I am the {team.role} at Chore Express.
+          </StyledOutputText>
+        ))}
+
+        <button>Edit</button>
+      </StyledDivFlex>
     </div>
   );
 }
@@ -170,15 +179,17 @@ function Form(props) {
     onEmailChange,
     onPasswordChange,
     onRoleChange,
-    onFormSubmit
+    onFormSubmit,
+    teamForm
   } = props;
-  const { name, email, password, role } = props.teamForm;
-  const isDisabled = () => {
-    if (!name || !email || !role) {
-      return true;
-    }
-    return false;
-  };
+  const { name, email, password, role } = teamForm;
+  let hasAllDetails = name && email && password && role;
+  //   const isDisabled = () => {
+  //     if (!name || !email || !role || !password) {
+  //       return true;
+  //     }
+  //     return false;
+  //   };
 
   return (
     <>
@@ -218,7 +229,7 @@ function Form(props) {
           type="text"
         />
 
-        <StyledButton disabled={isDisabled()} onClick={onFormSubmit}>
+        <StyledButton disabled={!hasAllDetails} onClick={onFormSubmit}>
           submit
         </StyledButton>
       </form>
